@@ -24,23 +24,35 @@
                         SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="{x:Type viewmodel:ShoppingListViewModel}">
-                    <SwipeView>
+                    <SwipeView Threshold="0">
                         <SwipeView.RightItems>
                             <SwipeItems Mode="Execute">
-                                <SwipeItem Text="Delete"
-                                           BackgroundColor="Red"
-                                           IconImageSource="dotnet_bot.png"
-                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=DeteleShopItemCommand}"
-                                           CommandParameter="{Binding .}"/>
+                                <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=DeteleShopItemCommand}"
+                                               CommandParameter="{Binding .}">
+                                    <StackLayout Background="Red"
+                                                 WidthRequest="2000">
+                                        <Label Text="Delete"
+                                               TextColor="White"
+                                               HorizontalOptions="End"
+                                               Margin="10,0"
+                                               VerticalOptions="CenterAndExpand"/>
+                                    </StackLayout>
+                                </SwipeItemView>
                             </SwipeItems>
                         </SwipeView.RightItems>
                         <SwipeView.LeftItems>
                             <SwipeItems Mode="Execute">
-                                <SwipeItem Text="Check off"
-                                           BackgroundColor="Green"
-                                           IconImageSource="dotnet_bot.png"
-                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=CheckOffShopItemCommand}"
-                                           CommandParameter="{Binding .}"/>
+                                <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=CheckOffShopItemCommand}"
+                                               CommandParameter="{Binding .}">
+                                    <StackLayout Background="Green"
+                                                 WidthRequest="2000">
+                                        <Label Text="Check off"
+                                               TextColor="White"
+                                               HorizontalOptions="Start"
+                                               Margin="10,0"
+                                               VerticalOptions="CenterAndExpand"/>
+                                    </StackLayout>
+                                </SwipeItemView>
                             </SwipeItems>
                         </SwipeView.LeftItems>
                         <Grid >
