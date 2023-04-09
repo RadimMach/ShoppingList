@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using ShoppingList.Models;
+using ShoppingList.Services;
+using ShoppingList.ViewModels;
 
 namespace ShoppingList;
 
@@ -18,6 +21,10 @@ public static class MauiProgram
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
+		builder.Services.AddSingleton<ShoppingDatabaseService>();
+
+		builder.Services.AddSingleton<ShoppingListViewModel>();
+		builder.Services.AddSingleton<MainPage>();
 
 		return builder.Build();
 	}

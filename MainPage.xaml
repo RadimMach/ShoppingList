@@ -1,41 +1,71 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ShoppingList.MainPage">
+             xmlns:viewmodel="clr-namespace:ShoppingList.ViewModels"
+             x:DataType="viewmodel:ShoppingListViewModel"
+             x:Class="ShoppingList.MainPage"
+             Title="{Binding Title}">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
+    <Grid RowDefinitions="Auto, *"
+          ColumnDefinitions="3*, 1*"
+          Padding="10"
+          ColumnSpacing="10">
 
-            <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
-                HorizontalOptions="Center" />
+        <Entry Placeholder="Enter item to buy"
+               Text="{Binding Name}"/>
 
-            <Label
-                Text="Hello, World!"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
+        <Button Text="Add"
+                Margin="10"
+                Command="{Binding AddShopItemCommand}"
+                Grid.Column="1"/>
 
-            <Label
-                Text="Welcome to .NET Multi-platform App UI"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center" />
-
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />
-
-        </VerticalStackLayout>
-    </ScrollView>
+        <CollectionView Grid.Row="1" Grid.ColumnSpan="2"
+                        ItemsSource="{Binding ShopItems}"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type viewmodel:ShoppingListViewModel}">
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems Mode="Execute">
+                                <SwipeItem Text="Delete"
+                                           BackgroundColor="Red"
+                                           IconImageSource="dotnet_bot.png"
+                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=DeteleShopItemCommand}"
+                                           CommandParameter="{Binding .}"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <SwipeView.LeftItems>
+                            <SwipeItems Mode="Execute">
+                                <SwipeItem Text="Check off"
+                                           BackgroundColor="Green"
+                                           IconImageSource="dotnet_bot.png"
+                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=CheckOffShopItemCommand}"
+                                           CommandParameter="{Binding .}"/>
+                            </SwipeItems>
+                        </SwipeView.LeftItems>
+                        <Grid >
+                            <Frame>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=TapCommand}"
+                                        CommandParameter="{Binding .}"/>
+                                </Frame.GestureRecognizers>
+                                <Grid>
+                                    <Label Text="{Binding Name}"/>
+                                    <HorizontalStackLayout HorizontalOptions="End" Spacing="5">
+                                        <Label Text="{Binding Amount}"/>
+                                        <Label Text="{Binding Unit}"/>
+                                    </HorizontalStackLayout>
+                                </Grid>
+                              
+                            </Frame>
+                            
+                            <BoxView HeightRequest="1" VerticalOptions="EndAndExpand" />
+                        </Grid>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 
 </ContentPage>
