@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Android.Media.Effect;
+using Microsoft.Extensions.Logging;
+using ShoppingList.Effects;
 using ShoppingList.Models;
 using ShoppingList.Services;
 using ShoppingList.ViewModels;
@@ -12,6 +14,10 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.ConfigureEffects(effects =>
+			{
+				effects.Add<RemoveBorderEffect, RemoveBorderPlatformEffect>();
+			})
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
