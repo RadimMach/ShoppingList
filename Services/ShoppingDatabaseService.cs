@@ -13,7 +13,7 @@ namespace ShoppingList.Services
         {
             return new List<ShopItemModel>()
             {
-                new ShopItemModel() { Id = 1, Amount = 500, Name = "Milk", Unit = "ml"},
+                new ShopItemModel() { Id = 1, Amount = 500, Name = "Milk", Unit = "ml", CheckedOff = true},
                 new ShopItemModel() { Id = 1, Amount = 500, Name = "Beer", Unit = "ml"}
             };
         }

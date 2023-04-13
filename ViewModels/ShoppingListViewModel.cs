@@ -30,6 +30,7 @@ namespace ShoppingList.ViewModels
             // temp
             var items = shoppingDatabaseService.GetShopItems();
             items.ForEach(ShopItems.Add);
+            ReorderShopItems();
         }
 
         [RelayCommand]
@@ -47,6 +48,9 @@ namespace ShoppingList.ViewModels
 
             // add our item
             Name = string.Empty;
+
+            OnPropertyChanged(nameof(ShopItems));
+            ReorderShopItems();
         }
 
         [RelayCommand]
@@ -62,6 +66,19 @@ namespace ShoppingList.ViewModels
         void CheckOffShopItem(ShopItemModel item)
         {
             item.CheckedOff = !item.CheckedOff;
+
+            ReorderShopItems();
+        }
+
+        private void ReorderShopItems()
+        {
+            ShopItems = new ObservableCollection<ShopItemModel>(ShopItems.OrderBy(i => i.CheckedOff).ThenBy(i => i.Name));
+
+            // Workaround for re-applying data template
+            var tempList = ShopItems.ToList();
+            ShopItems.Clear();
+            ShopItems = new ObservableCollection<ShopItemModel>(tempList);
+            OnPropertyChanged(nameof(ShopItems));
         }
     }
 }
