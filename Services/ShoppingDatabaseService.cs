@@ -9,12 +9,12 @@ namespace ShoppingList.Services
 {
     public class ShoppingDatabaseService
     {
-        public List<ShopItemModel> GetShopItems()
+        public List<ShopItem> GetShopItems()
         {
-            return new List<ShopItemModel>()
+            return new List<ShopItem>()
             {
-                new ShopItemModel() { Id = 1, Amount = 500, Name = "Milk", Unit = "ml", CheckedOff = true},
-                new ShopItemModel() { Id = 1, Amount = 500, Name = "Beer", Unit = "ml"}
+                new ShopItem() { Id = 1, Amount = 500, Name = "Milk", Unit = "ml", CheckedOff = true},
+                new ShopItem() { Id = 1, Amount = 500, Name = "Beer", Unit = "ml"}
             };
         }
     }

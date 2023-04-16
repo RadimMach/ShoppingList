@@ -9,7 +9,7 @@ namespace ShoppingList.Templates
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            return ((ShopItemModel)item).CheckedOff ? CheckedOffShopItemTemplate : DefaultShopItemTemplate ;
+            return ((ShopItem)item).CheckedOff ? CheckedOffShopItemTemplate : DefaultShopItemTemplate ;
         }
     }
 }

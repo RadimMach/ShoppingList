@@ -10,7 +10,7 @@ namespace ShoppingList.ViewModels
     {
         private readonly ShoppingDatabaseService shoppingDatabaseService;
        
-        public ObservableCollection<ShopItemModel> ShopItems { get; set; }
+        public ObservableCollection<ShopItem> ShopItems { get; set; }
 
         [ObservableProperty]
         string name;
@@ -24,7 +24,7 @@ namespace ShoppingList.ViewModels
         public ShoppingListViewModel(ShoppingDatabaseService databaseService)
         {
             Title = "Shopping list";
-            ShopItems = new ObservableCollection<ShopItemModel>();
+            ShopItems = new ObservableCollection<ShopItem>();
             shoppingDatabaseService = databaseService;
 
             // temp
@@ -39,7 +39,7 @@ namespace ShoppingList.ViewModels
             if (string.IsNullOrEmpty(Name))
                 return;
 
-            var newItem = new ShopItemModel { Name = Name };
+            var newItem = new ShopItem { Name = Name };
 
             if (!ShopItems.Contains(newItem))
             {
@@ -54,7 +54,7 @@ namespace ShoppingList.ViewModels
         }
 
         [RelayCommand]
-        void DeteleShopItem(ShopItemModel item)
+        void DeteleShopItem(ShopItem item)
         {
             if (ShopItems.Contains(item))
             {
@@ -63,7 +63,7 @@ namespace ShoppingList.ViewModels
         }
 
         [RelayCommand]
-        void CheckOffShopItem(ShopItemModel item)
+        void CheckOffShopItem(ShopItem item)
         {
             item.CheckedOff = !item.CheckedOff;
 
@@ -72,12 +72,12 @@ namespace ShoppingList.ViewModels
 
         private void ReorderShopItems()
         {
-            ShopItems = new ObservableCollection<ShopItemModel>(ShopItems.OrderBy(i => i.CheckedOff).ThenBy(i => i.Name));
+            ShopItems = new ObservableCollection<ShopItem>(ShopItems.OrderBy(i => i.CheckedOff).ThenBy(i => i.Name));
 
             // Workaround for re-applying data template
             var tempList = ShopItems.ToList();
             ShopItems.Clear();
-            ShopItems = new ObservableCollection<ShopItemModel>(tempList);
+            ShopItems = new ObservableCollection<ShopItem>(tempList);
             OnPropertyChanged(nameof(ShopItems));
         }
     }
