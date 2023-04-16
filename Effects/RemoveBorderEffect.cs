@@ -78,5 +78,18 @@ internal class RemoveBorderPlatformEffect : PlatformEffect
             }
         }
     }
+#elif MACCATALYST
+    internal class RemoveBorderPlatformEffect : PlatformEffect
+    {
+        protected override void OnAttached()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void OnDetached()
+        {
+            throw new NotImplementedException();
+        }
+    }
 #endif
 }

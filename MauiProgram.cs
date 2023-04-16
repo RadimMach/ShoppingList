@@ -1,5 +1,4 @@
-﻿using Android.Media.Effect;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using ShoppingList.Effects;
 using ShoppingList.Models;
 using ShoppingList.Services;
