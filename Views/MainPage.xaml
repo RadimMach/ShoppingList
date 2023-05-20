@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ShoppingList.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:effects="clr-namespace:ShoppingList.Effects"
+    xmlns:templates="clr-namespace:ShoppingList.Templates"
+    xmlns:viewmodel="clr-namespace:ShoppingList.ViewModels"
+    Title="{Binding Title}"
+    x:DataType="viewmodel:ShoppingListViewModel">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="DefaultShopItem">
+                <SwipeView>
+                    <SwipeView.RightItems>
+                        <SwipeItems Mode="Execute">
+                            <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=DeteleShopItemCommand}" CommandParameter="{Binding .}">
+                                <StackLayout Background="Red" WidthRequest="2000">
+                                    <Label
+                                        Margin="10,0"
+                                        HorizontalOptions="End"
+                                        Text="Delete"
+                                        TextColor="White"
+                                        VerticalOptions="CenterAndExpand" />
+                                </StackLayout>
+                            </SwipeItemView>
+                        </SwipeItems>
+                    </SwipeView.RightItems>
+                    <SwipeView.LeftItems>
+                        <SwipeItems Mode="Execute">
+                            <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=CheckOffShopItemCommand}" CommandParameter="{Binding .}">
+                                <StackLayout Background="Green" WidthRequest="2000">
+                                    <Label
+                                        Margin="10,0"
+                                        HorizontalOptions="Start"
+                                        Text="Check off"
+                                        TextColor="White"
+                                        VerticalOptions="CenterAndExpand" />
+                                </StackLayout>
+                            </SwipeItemView>
+                        </SwipeItems>
+                    </SwipeView.LeftItems>
+                    <Grid>
+                        <Frame>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=TapCommand}" CommandParameter="{Binding .}" />
+                            </Frame.GestureRecognizers>
+                            <Grid>
+                                <Label Text="{Binding Name}" />
+                                <HorizontalStackLayout HorizontalOptions="End" Spacing="5">
+                                    <Label Text="{Binding Amount}" />
+                                    <Label Text="{Binding Unit}" />
+                                </HorizontalStackLayout>
+                            </Grid>
+
+                        </Frame>
+
+                        <BoxView HeightRequest="1" VerticalOptions="EndAndExpand" />
+                    </Grid>
+                </SwipeView>
+            </DataTemplate>
+
+            <DataTemplate x:Key="CheckedOffShopItem">
+                <SwipeView>
+                    <SwipeView.RightItems>
+                        <SwipeItems Mode="Execute">
+                            <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=DeteleShopItemCommand}" CommandParameter="{Binding .}">
+                                <StackLayout Background="Red" WidthRequest="2000">
+                                    <Label
+                                        Margin="10,0"
+                                        HorizontalOptions="End"
+                                        Text="Delete"
+                                        TextColor="White"
+                                        VerticalOptions="CenterAndExpand" />
+                                </StackLayout>
+                            </SwipeItemView>
+                        </SwipeItems>
+                    </SwipeView.RightItems>
+                    <SwipeView.LeftItems>
+                        <SwipeItems Mode="Execute">
+                            <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=CheckOffShopItemCommand}" CommandParameter="{Binding .}">
+                                <StackLayout Background="Green" WidthRequest="2000">
+                                    <Label
+                                        Margin="10,0"
+                                        HorizontalOptions="Start"
+                                        Text="Check off"
+                                        TextColor="White"
+                                        VerticalOptions="CenterAndExpand" />
+                                </StackLayout>
+                            </SwipeItemView>
+                        </SwipeItems>
+                    </SwipeView.LeftItems>
+                    <Grid>
+                        <Frame BackgroundColor="LightGray">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=TapCommand}" CommandParameter="{Binding .}" />
+                            </Frame.GestureRecognizers>
+                            <Grid>
+                                <Label Text="{Binding Name}" />
+                                <HorizontalStackLayout HorizontalOptions="End" Spacing="5">
+                                    <Label Text="{Binding Amount}" />
+                                    <Label Text="{Binding Unit}" />
+                                </HorizontalStackLayout>
+                            </Grid>
+
+                        </Frame>
+                    </Grid>
+                </SwipeView>
+            </DataTemplate>
+
+            <templates:ShopItemTemplateSelector
+                x:Key="ShopItemSelector"
+                CheckedOffShopItemTemplate="{StaticResource CheckedOffShopItem}"
+                DefaultShopItemTemplate="{StaticResource DefaultShopItem}" />
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid
+        Padding="10"
+        ColumnDefinitions="2*,50,50"
+        ColumnSpacing="10"
+        RowDefinitions="Auto, Auto, *">
+
+        <Entry
+            Placeholder="Enter item to buy"
+            Text="{Binding Name}"
+            VerticalOptions="Center">
+            <Entry.Effects>
+                <effects:RemoveBorderEffect />
+            </Entry.Effects>
+        </Entry>
+
+        <Entry
+            Grid.Column="1"
+            HorizontalOptions="End"
+            Placeholder="Amount"
+            Text="{Binding Amount, Converter={StaticResource NumberToTextConverter}}"
+            Keyboard="Numeric"
+            VerticalOptions="Center">
+            <Entry.Effects>
+                <effects:RemoveBorderEffect />
+            </Entry.Effects>
+        </Entry>
+
+        <Entry
+            Grid.Column="2"
+            HorizontalOptions="End"
+            Placeholder="Unit"
+            Text="{Binding Unit}"
+            VerticalOptions="Center">
+            <Entry.Effects>
+                <effects:RemoveBorderEffect />
+            </Entry.Effects>
+        </Entry>
+
+        <Button
+            Grid.Row="1"
+            Margin="10"
+            IsVisible="{Binding IsUpdatingItem}"
+            Command="{Binding UpdateShopItemCommand}"
+            Text="Update" />
+
+        <Button
+            Grid.Row="1"
+            Margin="10"
+            IsVisible="{Binding IsAddingItem}"
+            Command="{Binding AddShopItemCommand}"
+            Text="Add" />
+
+        <Button
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            IsVisible="{Binding IsAnyEntryFilled}"
+            Margin="10"
+            Command="{Binding ExitEditModeCommand}"
+            Text="Cancel" />
+
+        <CollectionView
+            Grid.Row="2"
+            Grid.ColumnSpan="3"
+            ItemTemplate="{DynamicResource ShopItemSelector}"
+            ItemsSource="{Binding ShopItems}"
+            SelectedItem="{Binding SelectedItem}"
+            SelectionMode="Single" />
+    </Grid>
+
+</ContentPage>

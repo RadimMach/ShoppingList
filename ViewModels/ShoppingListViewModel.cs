@@ -8,76 +8,140 @@ namespace ShoppingList.ViewModels
 {
     public partial class ShoppingListViewModel : BaseViewModel
     {
-        private readonly ShoppingDatabaseService shoppingDatabaseService;
-       
         public ObservableCollection<ShopItem> ShopItems { get; set; }
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsAnyEntryFilled))]
+        [NotifyPropertyChangedFor(nameof(IsAddingItem))]
+        [NotifyPropertyChangedFor(nameof(IsUpdatingItem))]
         string name;
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsAnyEntryFilled))]
+        [NotifyPropertyChangedFor(nameof(IsAddingItem))]
+        [NotifyPropertyChangedFor(nameof(IsUpdatingItem))]
         double amount;
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsAnyEntryFilled), nameof(IsAddingItem), nameof(IsUpdatingItem))]
         string unit;
 
-        public ShoppingListViewModel(ShoppingDatabaseService databaseService)
+        [ObservableProperty]
+        ShopItem selectedItem;
+
+
+        public bool IsAnyEntryFilled => !string.IsNullOrEmpty(Name) || !string.IsNullOrEmpty(Unit) || Amount > 0;
+
+        public bool IsAddingItem => IsAnyEntryFilled && SelectedItem is null;
+
+        public bool IsUpdatingItem => IsAnyEntryFilled && SelectedItem != null;
+
+        public ShoppingListViewModel()
         {
             Title = "Shopping list";
             ShopItems = new ObservableCollection<ShopItem>();
-            shoppingDatabaseService = databaseService;
 
-            // temp
-            var items = shoppingDatabaseService.GetShopItems();
+            GetShopItems().Wait();
+        }
+
+        async Task GetShopItems()
+        {
+            var items = App.ShoppingDatabaseService.GetShopItems();
+            ShopItems.Clear();
             items.ForEach(ShopItems.Add);
             ReorderShopItems();
+            SelectedItem = null;
         }
 
         [RelayCommand]
-        void AddShopItem()
+        async Task AddShopItem()
         {
             if (string.IsNullOrEmpty(Name))
+            {
                 return;
-
-            var newItem = new ShopItem { Name = Name };
-
-            if (!ShopItems.Contains(newItem))
-            {
-                ShopItems.Add(newItem);
             }
 
-            // add our item
+            var shopItem = new ShopItem { Name = Name, Amount = Amount, Unit = Unit };
+
+            if (!ShopItems.Contains(shopItem))
+            {
+                ShopItems.Add(shopItem);
+            }
+
+            App.ShoppingDatabaseService.AddShopItem(shopItem);
+            await GetShopItems();
+
+            ClearEntries();
+        }
+
+        private void ClearEntries()
+        {
             Name = string.Empty;
-
-            OnPropertyChanged(nameof(ShopItems));
-            ReorderShopItems();
+            Amount = default;
+            Unit = string.Empty;
         }
 
         [RelayCommand]
-        void DeteleShopItem(ShopItem item)
+        async Task DeteleShopItem(ShopItem shopItem)
         {
-            if (ShopItems.Contains(item))
+            if (shopItem is null)
             {
-                ShopItems.Remove(item);
+                return;
             }
+
+            App.ShoppingDatabaseService.DeleteShopItem(shopItem);
+            await GetShopItems();
         }
 
         [RelayCommand]
-        void CheckOffShopItem(ShopItem item)
+        async Task UpdateShopItem()
         {
-            item.CheckedOff = !item.CheckedOff;
+            if (SelectedItem is null)
+            {
+                return;
+            }
 
-            ReorderShopItems();
+            var item = new ShopItem
+            {
+                Id = SelectedItem.Id,
+                Name = Name,
+                Amount = Amount,
+                Unit = Unit,
+            };
+
+            App.ShoppingDatabaseService.UpdateShopItem(item);
+            await GetShopItems();
+
+            ClearEntries();
+        }
+
+        [RelayCommand]
+        async Task CheckOffShopItem(ShopItem shopItem)
+        {
+            shopItem.CheckedOff = !shopItem.CheckedOff;
+
+            App.ShoppingDatabaseService.UpdateShopItem(shopItem);
+            await GetShopItems();
+        }
+
+        [RelayCommand]
+        void Tap(ShopItem shopItem)
+        {
+            Name = shopItem.Name;
+            Amount = shopItem.Amount;
+            Unit = shopItem.Unit;
+        }
+
+        [RelayCommand]
+        void ExitEditMode()
+        {
+            ClearEntries();
+            SelectedItem = null;
         }
 
         private void ReorderShopItems()
         {
             ShopItems = new ObservableCollection<ShopItem>(ShopItems.OrderBy(i => i.CheckedOff).ThenBy(i => i.Name));
-
-            // Workaround for re-applying data template
-            var tempList = ShopItems.ToList();
-            ShopItems.Clear();
-            ShopItems = new ObservableCollection<ShopItem>(tempList);
             OnPropertyChanged(nameof(ShopItems));
         }
     }

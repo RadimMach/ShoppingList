@@ -1,5 +1,8 @@
-﻿namespace ShoppingList.Models
+﻿using SQLite;
+
+namespace ShoppingList.Models
 {
+    [Table(nameof(ShopItem))]
     public class ShopItem : BaseEntity
     {
         public string Name { get; set; }

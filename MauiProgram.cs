@@ -3,6 +3,7 @@ using ShoppingList.Effects;
 using ShoppingList.Models;
 using ShoppingList.Services;
 using ShoppingList.ViewModels;
+using ShoppingList.Views;
 
 namespace ShoppingList;
 
@@ -23,10 +24,12 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
+		string dbPath = Path.Combine(FileSystem.AppDataDirectory, "shopitems.db3");
+
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
-		builder.Services.AddSingleton<ShoppingDatabaseService>();
+		builder.Services.AddSingleton(s => ActivatorUtilities.CreateInstance<ShoppingDatabaseService>(s, dbPath));
 
 		builder.Services.AddSingleton<ShoppingListViewModel>();
 		builder.Services.AddSingleton<MainPage>();

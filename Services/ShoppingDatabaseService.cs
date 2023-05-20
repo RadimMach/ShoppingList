@@ -1,21 +1,95 @@
 ﻿using ShoppingList.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SQLite;
 
 namespace ShoppingList.Services
 {
-    public class ShoppingDatabaseService
+    public class ShoppingDatabaseService : IShoppingDatabaseService
     {
+        private SQLiteConnection conn;
+        private string _dbPath;
+        public string StatusMessage;
+        private int result;
+
+        public ShoppingDatabaseService(string dbPath)
+        {
+            _dbPath = dbPath;
+        }
+
+        private void Init()
+        {
+            if (conn != null)
+            {
+                return;
+            }
+
+            conn = new SQLiteConnection(_dbPath);
+            conn.CreateTable<ShopItem>();
+        }
+
+        public void AddShopItem(ShopItem item)
+        {
+            try
+            {
+                Init();
+
+                if (item is null)
+                {
+                    throw new ArgumentNullException("item");
+                }
+
+                result = conn.Insert(item);
+                StatusMessage = result == 0 ? "Insert failed" : "Insert successful";
+            }
+            catch (Exception)
+            {
+                StatusMessage = "Failed to insert data";
+            }
+        }
+
+        public void DeleteShopItem(ShopItem item)
+        {
+            try
+            {
+                Init();
+
+                result = conn.Delete(item);
+                StatusMessage = result == 0 ? "Delete failed" : "Delete successful";
+            }
+            catch (Exception)
+            {
+                StatusMessage = "Failed to delete data";
+            }
+        }
+
         public List<ShopItem> GetShopItems()
         {
-            return new List<ShopItem>()
+            try
             {
-                new ShopItem() { Id = 1, Amount = 500, Name = "Milk", Unit = "ml", CheckedOff = true},
-                new ShopItem() { Id = 1, Amount = 500, Name = "Beer", Unit = "ml"}
-            };
+                Init();
+
+                return conn.Table<ShopItem>().ToList();
+            }
+            catch (Exception)
+            {
+                StatusMessage = "Failed to retrieve data.";
+            }
+
+            return new List<ShopItem>();
+        }
+
+        public void UpdateShopItem(ShopItem shopItem)
+        {
+            try
+            {
+                Init();
+
+                result = conn.Update(shopItem);
+                StatusMessage = result == 0 ? "Update failed" : "Update successful";
+            }
+            catch (Exception)
+            {
+                StatusMessage = "Failed to update data";
+            }
         }
     }
 }
