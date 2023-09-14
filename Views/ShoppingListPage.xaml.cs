@@ -2,14 +2,12 @@
 
 namespace ShoppingList.Views;
 
-public partial class MainPage : ContentPage
+public partial class ShoppingListPage : ContentPage
 {
-	public MainPage(ShoppingListViewModel shoppingListViewModel)
+	public ShoppingListPage(ShoppingListViewModel shoppingListViewModel)
 	{
 		InitializeComponent();
 		BindingContext = shoppingListViewModel;
 	}
-
-	
 }
 

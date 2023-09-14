@@ -29,10 +29,15 @@ public static class MauiProgram
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
-		builder.Services.AddSingleton(s => ActivatorUtilities.CreateInstance<ShoppingDatabaseService>(s, dbPath));
+		builder.Services.AddSingleton<IShoppingDatabaseService>(s => ActivatorUtilities.CreateInstance<ShoppingDatabaseService>(s, dbPath));
 
 		builder.Services.AddSingleton<ShoppingListViewModel>();
-		builder.Services.AddSingleton<MainPage>();
+		builder.Services.AddSingleton<RecipesViewModel>();
+		builder.Services.AddTransient<RecipeDetailViewModel>();
+
+		builder.Services.AddSingleton<ShoppingListPage>();
+		builder.Services.AddSingleton<RecipesPage>();
+		builder.Services.AddTransient<RecipeDetailPage>();
 
 		return builder.Build();
 	}

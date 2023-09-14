@@ -55,4 +55,22 @@
 		<PackageReference Include="SQLitePCLRaw.provider.dynamic_cdecl" Version="2.1.4" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Views\RecipeDetailPage.xaml.cs">
+	    <DependentUpon>RecipeDetailPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\ShoppingListPage.xaml.cs">
+	    <DependentUpon>ShoppingListPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\RecipeDetailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\RecipesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>

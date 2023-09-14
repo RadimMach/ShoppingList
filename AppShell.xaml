@@ -7,9 +7,15 @@
     xmlns:views="clr-namespace:ShoppingList.Views"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate views:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <ShellContent
+            Title="Shopping list"
+            ContentTemplate="{DataTemplate views:ShoppingListPage}"
+            Route="ShoppingListPage" />
 
+        <ShellContent
+            Title="Recipes"
+            ContentTemplate="{DataTemplate views:RecipesPage}"
+            Route="RecipesPage" />
+    </TabBar>
 </Shell>

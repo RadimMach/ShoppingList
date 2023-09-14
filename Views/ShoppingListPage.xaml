@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="ShoppingList.Views.MainPage"
+    x:Class="ShoppingList.Views.ShoppingListPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:effects="clr-namespace:ShoppingList.Effects"
@@ -119,7 +119,7 @@
 
     <Grid
         Padding="10"
-        ColumnDefinitions="2*,50,50"
+        ColumnDefinitions="*,50,50"
         ColumnSpacing="10"
         RowDefinitions="Auto, Auto, *">
 
@@ -179,6 +179,7 @@
             Text="Cancel" />
 
         <CollectionView
+            EmptyView="No items to shop"
             Grid.Row="2"
             Grid.ColumnSpan="3"
             ItemTemplate="{DynamicResource ShopItemSelector}"
