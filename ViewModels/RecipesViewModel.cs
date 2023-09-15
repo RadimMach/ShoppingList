@@ -1,12 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using ShoppingList.Messages;
 using ShoppingList.Models;
 using ShoppingList.Views;
 using System.Collections.ObjectModel;
 
 namespace ShoppingList.ViewModels
 {
-    public partial class RecipesViewModel : BaseViewModel
+    public partial class RecipesViewModel : BaseViewModel, IRecipient<UpdateItemsMessage>
     {
         [ObservableProperty]
         public string name;
@@ -18,6 +20,8 @@ namespace ShoppingList.ViewModels
         {
             Title = "Recipes";
             Recipes = new ObservableCollection<Recipe>();
+
+            WeakReferenceMessenger.Default.Register(this);
 
             GetRecipes().Wait();
         }
@@ -35,7 +39,6 @@ namespace ShoppingList.ViewModels
         public async void UpdateRecipe(Recipe recipe)
         {
             await Shell.Current.GoToAsync($"{nameof(RecipeDetailPage)}?RecipeId={recipe.Id}");
-            await GetRecipes();
         }
 
         async Task GetRecipes()
@@ -43,6 +46,14 @@ namespace ShoppingList.ViewModels
             var items = App.ShoppingDatabaseService.GetItems<Recipe>().ToList();
             Recipes.Clear();
             items.ForEach(Recipes.Add);
+        }
+
+        public void Receive(UpdateItemsMessage message)
+        {
+            if (message.Value is true)
+            {
+                GetRecipes().Wait();
+            }
         }
     }
 }

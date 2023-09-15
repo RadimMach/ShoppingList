@@ -167,5 +167,25 @@ namespace ShoppingList.Services
 
             return default;
         }
+
+        public void UpdateItem<T>(T item) where T : BaseEntity, new()
+        {
+            try
+            {
+                Init();
+
+                if (item is null)
+                {
+                    throw new ArgumentNullException(nameof(T));
+                }
+
+                result = conn.Update(item);
+                StatusMessage = result == 0 ? "Update failed" : "Update successful";
+            }
+            catch (Exception)
+            {
+                StatusMessage = "Failed to update data";
+            }
+        }
     }
 }

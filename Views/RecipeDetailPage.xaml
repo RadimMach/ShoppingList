@@ -12,7 +12,8 @@
         <HorizontalStackLayout>
             <Button
                 Margin="10"
-                Text="Save"/>
+                Command="{Binding UpdateCommand}"
+                Text="Update"/>
             
             <Button
                 Grid.ColumnSpan="2"
