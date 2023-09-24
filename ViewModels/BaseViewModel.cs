@@ -12,5 +12,10 @@ namespace ShoppingList.ViewModels
         bool isLoading;
 
         public bool IsNotLoading => !IsLoading;
+
+        protected async Task ShowAlert(string message)
+        {
+            await Shell.Current.DisplayAlert("Info", message, "Ok");
+        }
     }
 }

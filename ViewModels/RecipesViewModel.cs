@@ -30,7 +30,6 @@ namespace ShoppingList.ViewModels
         public async void AddRecipe()
         {
             await Shell.Current.GoToAsync(nameof(RecipeDetailPage));
-           // App.ShoppingDatabaseService.AddItem(new Recipe() { Name = "aaa" });
             await GetRecipes();
         }
 
@@ -55,13 +54,15 @@ namespace ShoppingList.ViewModels
             var shopItems = ingredients.Select(i => i.ToShopItem());
             App.ShoppingDatabaseService.AddItems<ShopItem>(shopItems);
             WeakReferenceMessenger.Default.Send(new RefreshShopItemsMessage(true));
+
+            await ShowAlert($"Ingredients of {recipe.Name} recipe has been added to shopping list.");
         }
 
         [RelayCommand]
         public async void GoToRandomRecipe()
         {
             var random = new Random();
-            int randomId = random.Next(Recipes.Count) + 1;
+            int randomId = random.Next(Recipes.Count);
             var recipe = Recipes[randomId];
 
             await Shell.Current.GoToAsync($"{nameof(RecipeDetailPage)}?RecipeId={recipe.Id}");

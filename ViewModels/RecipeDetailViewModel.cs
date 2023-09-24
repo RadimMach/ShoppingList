@@ -198,6 +198,8 @@ namespace ShoppingList.ViewModels
             var shopItems = ingredients.Select(i => i.ToShopItem());
             App.ShoppingDatabaseService.AddItems<ShopItem>(shopItems);
             WeakReferenceMessenger.Default.Send(new RefreshShopItemsMessage(true));
+
+            await ShowAlert($"Ingredients of {recipe.Name} recipe has been added to shopping list.");
         }
 
         private void ClearEntries()
