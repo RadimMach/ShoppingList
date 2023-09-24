@@ -135,6 +135,20 @@ namespace ShoppingList.ViewModels
         }
 
         [RelayCommand]
+        async void DeletePurchasedItems()
+        {
+            App.ShoppingDatabaseService.DeleteItems<ShopItem>(i => i.CheckedOff);
+            await GetShopItems();
+        }
+
+        [RelayCommand]
+        async void DeleteAllItems()
+        {
+            App.ShoppingDatabaseService.DeleteItems<ShopItem>(i => true);
+            await GetShopItems();
+        }
+
+        [RelayCommand]
         void ExitEditMode()
         {
             ClearEntries();

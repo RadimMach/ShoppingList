@@ -117,6 +117,11 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Delete purchased items" Order="Secondary" Command="{Binding DeletePurchasedItemsCommand}"/>
+        <ToolbarItem Text="Delete all items" Order="Secondary" Command="{Binding DeleteAllItemsCommand}"/>
+    </ContentPage.ToolbarItems>
+    
     <Grid
         Padding="10"
         ColumnDefinitions="*,50,50"
