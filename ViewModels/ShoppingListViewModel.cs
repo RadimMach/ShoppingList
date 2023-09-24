@@ -1,12 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using ShoppingList.Messages;
 using ShoppingList.Models;
-using ShoppingList.Services;
 using System.Collections.ObjectModel;
 
 namespace ShoppingList.ViewModels
 {
-    public partial class ShoppingListViewModel : BaseViewModel
+    public partial class ShoppingListViewModel : BaseViewModel, IRecipient<RefreshShopItemsMessage>
     {
         public ObservableCollection<ShopItem> ShopItems { get; set; }
 
@@ -41,6 +42,7 @@ namespace ShoppingList.ViewModels
             Title = "Shopping list";
             ShopItems = new ObservableCollection<ShopItem>();
 
+            WeakReferenceMessenger.Default.Register(this);
             GetShopItems().Wait();
         }
 
@@ -143,6 +145,14 @@ namespace ShoppingList.ViewModels
         {
             ShopItems = new ObservableCollection<ShopItem>(ShopItems.OrderBy(i => i.CheckedOff).ThenBy(i => i.Name));
             OnPropertyChanged(nameof(ShopItems));
+        }
+
+        public async void Receive(RefreshShopItemsMessage message)
+        {
+            if (message.Value is true)
+            {
+                await GetShopItems();
+            }
         }
     }
 }

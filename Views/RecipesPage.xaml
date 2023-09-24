@@ -13,7 +13,9 @@
         ColumnSpacing="10"
         RowDefinitions="Auto, *">
 
-        <Button Margin="10" Text="Pick random recipe" />
+        <Button Margin="10" 
+                Command="{Binding GoToRandomRecipeCommand}"
+                Text="Pick random recipe" />
 
         <Button
             Grid.Column="1"

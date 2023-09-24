@@ -5,12 +5,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:effects="clr-namespace:ShoppingList.Effects"
     xmlns:viewmodel="clr-namespace:ShoppingList.ViewModels"
-    Title="RecipeDetailView"
     x:DataType="viewmodel:RecipeDetailViewModel"
     Shell.TabBarIsVisible="False">
     
     <Grid RowDefinitions="auto,auto,auto,auto,*">
-        <HorizontalStackLayout>
+        <Grid
+            ColumnDefinitions="*,*">
             <Button
                 Margin="10"
                 IsVisible="{Binding IsNewRecipe, Converter={StaticResource InverseBooleanConverter}}"
@@ -24,11 +24,12 @@
                 Text="Create Recipe" />
 
             <Button
-                Grid.ColumnSpan="2"
+                Grid.Column="1"
                 Margin="10"
-                Command="{Binding CancelCommand}"
-                Text="Go back" />
-        </HorizontalStackLayout>
+                IsVisible="{Binding IsNewRecipe, Converter={StaticResource InverseBooleanConverter}}"
+                Command="{Binding IngredientsToShoppingListCommand}"
+                Text="Add to shopping list" />
+        </Grid>
         
         <VerticalStackLayout Grid.Row="1" Margin="10">
             <Entry

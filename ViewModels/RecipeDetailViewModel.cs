@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using ShoppingList.Extensions;
 using ShoppingList.Messages;
 using ShoppingList.Models;
 using System.Collections.ObjectModel;
@@ -150,7 +151,7 @@ namespace ShoppingList.ViewModels
 
             App.ShoppingDatabaseService.AddItem(recipe);
 
-            WeakReferenceMessenger.Default.Send(new UpdateIngredientsMessage(true));
+            WeakReferenceMessenger.Default.Send(new RefreshIngredientsMessage(true));
             OnPropertyChanged(nameof(IsNewRecipe));
         }
 
@@ -167,7 +168,7 @@ namespace ShoppingList.ViewModels
 
             App.ShoppingDatabaseService.UpdateItem(recipe);
 
-            WeakReferenceMessenger.Default.Send(new UpdateIngredientsMessage(true));
+            WeakReferenceMessenger.Default.Send(new RefreshIngredientsMessage(true));
         }
 
         [RelayCommand]
@@ -186,6 +187,15 @@ namespace ShoppingList.ViewModels
 
             App.ShoppingDatabaseService.DeleteItem(ingredient);
             await GetIngredients();
+        }
+
+        [RelayCommand]
+        public async void IngredientsToShoppingList()
+        {
+            var ingredients = App.ShoppingDatabaseService.GetItems<Ingredient>(i => i.RecipeId == recipe.Id);
+            var shopItems = ingredients.Select(i => i.ToShopItem());
+            App.ShoppingDatabaseService.AddItems<ShopItem>(shopItems);
+            WeakReferenceMessenger.Default.Send(new RefreshShopItemsMessage(true));
         }
 
         private void ClearEntries()

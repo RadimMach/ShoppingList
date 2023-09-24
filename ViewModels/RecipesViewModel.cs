@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 
 namespace ShoppingList.ViewModels
 {
-    public partial class RecipesViewModel : BaseViewModel, IRecipient<UpdateIngredientsMessage>
+    public partial class RecipesViewModel : BaseViewModel, IRecipient<RefreshIngredientsMessage>
     {
         [ObservableProperty]
         public string name;
@@ -54,6 +54,17 @@ namespace ShoppingList.ViewModels
             var ingredients = App.ShoppingDatabaseService.GetItems<Ingredient>(i => i.RecipeId == recipe.Id);
             var shopItems = ingredients.Select(i => i.ToShopItem());
             App.ShoppingDatabaseService.AddItems<ShopItem>(shopItems);
+            WeakReferenceMessenger.Default.Send(new RefreshShopItemsMessage(true));
+        }
+
+        [RelayCommand]
+        public async void GoToRandomRecipe()
+        {
+            var random = new Random();
+            int randomId = random.Next(Recipes.Count) + 1;
+            var recipe = Recipes[randomId];
+
+            await Shell.Current.GoToAsync($"{nameof(RecipeDetailPage)}?RecipeId={recipe.Id}");
         }
 
         [RelayCommand]
@@ -69,7 +80,7 @@ namespace ShoppingList.ViewModels
             items.ForEach(Recipes.Add);
         }
 
-        public void Receive(UpdateIngredientsMessage message)
+        public void Receive(RefreshIngredientsMessage message)
         {
             if (message.Value is true)
             {
