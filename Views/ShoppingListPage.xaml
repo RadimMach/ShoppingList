@@ -135,9 +135,9 @@
         <Entry
             Grid.Column="1"
             HorizontalOptions="End"
+            Keyboard="Numeric"
             Placeholder="Amount"
             Text="{Binding Amount, Converter={StaticResource NumberToTextConverter}}"
-            Keyboard="Numeric"
             VerticalOptions="Center">
             <Entry.Effects>
                 <effects:RemoveBorderEffect />
@@ -158,30 +158,30 @@
         <Button
             Grid.Row="1"
             Margin="10"
-            IsVisible="{Binding IsUpdatingItem}"
             Command="{Binding UpdateShopItemCommand}"
+            IsVisible="{Binding IsUpdatingItem}"
             Text="Update" />
 
         <Button
             Grid.Row="1"
             Margin="10"
-            IsVisible="{Binding IsAddingItem}"
             Command="{Binding AddShopItemCommand}"
+            IsVisible="{Binding IsAddingItem}"
             Text="Add" />
 
         <Button
             Grid.Row="1"
             Grid.Column="1"
             Grid.ColumnSpan="2"
-            IsVisible="{Binding IsAnyEntryFilled}"
             Margin="10"
             Command="{Binding ExitEditModeCommand}"
+            IsVisible="{Binding IsAnyEntryFilled}"
             Text="Cancel" />
 
         <CollectionView
-            EmptyView="No items to shop"
             Grid.Row="2"
             Grid.ColumnSpan="3"
+            EmptyView="No items to shop"
             ItemTemplate="{DynamicResource ShopItemSelector}"
             ItemsSource="{Binding ShopItems}"
             SelectedItem="{Binding SelectedItem}"

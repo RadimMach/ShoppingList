@@ -169,6 +169,8 @@ namespace ShoppingList.ViewModels
             App.ShoppingDatabaseService.UpdateItem(recipe);
 
             WeakReferenceMessenger.Default.Send(new RefreshIngredientsMessage(true));
+
+            await Shell.Current.GoToAsync("..");
         }
 
         [RelayCommand]
