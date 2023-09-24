@@ -75,7 +75,7 @@ namespace ShoppingList.ViewModels
 
         async Task GetRecipes()
         {
-            var items = App.ShoppingDatabaseService.GetItems<Recipe>().ToList();
+            var items = App.ShoppingDatabaseService.GetAllItems<Recipe>().ToList();
             Recipes.Clear();
             items.ForEach(Recipes.Add);
         }

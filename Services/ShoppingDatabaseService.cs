@@ -30,72 +30,6 @@ namespace ShoppingList.Services
             conn.CreateTable<Ingredient>();
         }
 
-        public void AddShopItem(ShopItem item)
-        {
-            try
-            {
-                Init();
-
-                if (item is null)
-                {
-                    throw new ArgumentNullException("item");
-                }
-
-                result = conn.Insert(item);
-                StatusMessage = result == 0 ? "Insert failed" : "Insert successful";
-            }
-            catch (Exception)
-            {
-                StatusMessage = "Failed to insert data";
-            }
-        }
-
-        public void DeleteShopItem(ShopItem item)
-        {
-            try
-            {
-                Init();
-
-                result = conn.Delete(item);
-                StatusMessage = result == 0 ? "Delete failed" : "Delete successful";
-            }
-            catch (Exception)
-            {
-                StatusMessage = "Failed to delete data";
-            }
-        }
-
-        public List<ShopItem> GetShopItems()
-        {
-            try
-            {
-                Init();
-
-                return conn.Table<ShopItem>().ToList();
-            }
-            catch (Exception)
-            {
-                StatusMessage = "Failed to retrieve data.";
-            }
-
-            return new List<ShopItem>();
-        }
-
-        public void UpdateShopItem(ShopItem shopItem)
-        {
-            try
-            {
-                Init();
-
-                result = conn.Update(shopItem);
-                StatusMessage = result == 0 ? "Update failed" : "Update successful";
-            }
-            catch (Exception)
-            {
-                StatusMessage = "Failed to update data";
-            }
-        }
-
         public void AddItem<T>(T item) where T : BaseEntity, new()
         {
             try
@@ -116,7 +50,7 @@ namespace ShoppingList.Services
             }
         }
 
-        public IEnumerable<T> GetItems<T>() where T : BaseEntity, new() 
+        public IEnumerable<T> GetAllItems<T>() where T : BaseEntity, new() 
         {
             try
             {

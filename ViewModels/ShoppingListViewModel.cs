@@ -48,7 +48,7 @@ namespace ShoppingList.ViewModels
 
         async Task GetShopItems()
         {
-            var items = App.ShoppingDatabaseService.GetShopItems();
+            var items = App.ShoppingDatabaseService.GetAllItems<ShopItem>().ToList();
             ShopItems.Clear();
             items.ForEach(ShopItems.Add);
             ReorderShopItems();
@@ -70,7 +70,7 @@ namespace ShoppingList.ViewModels
                 ShopItems.Add(shopItem);
             }
 
-            App.ShoppingDatabaseService.AddShopItem(shopItem);
+            App.ShoppingDatabaseService.AddItem(shopItem);
             await GetShopItems();
 
             ClearEntries();
@@ -91,7 +91,7 @@ namespace ShoppingList.ViewModels
                 return;
             }
 
-            App.ShoppingDatabaseService.DeleteShopItem(shopItem);
+            App.ShoppingDatabaseService.DeleteItem(shopItem);
             await GetShopItems();
         }
 
@@ -111,7 +111,7 @@ namespace ShoppingList.ViewModels
                 Unit = Unit,
             };
 
-            App.ShoppingDatabaseService.UpdateShopItem(item);
+            App.ShoppingDatabaseService.UpdateItem(item);
             await GetShopItems();
 
             ClearEntries();
@@ -122,7 +122,7 @@ namespace ShoppingList.ViewModels
         {
             shopItem.CheckedOff = !shopItem.CheckedOff;
 
-            App.ShoppingDatabaseService.UpdateShopItem(shopItem);
+            App.ShoppingDatabaseService.UpdateItem(shopItem);
             await GetShopItems();
         }
 
