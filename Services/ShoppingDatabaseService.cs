@@ -1,6 +1,7 @@
 ﻿using Microsoft.Maui.Controls;
 using ShoppingList.Models;
 using SQLite;
+using System.Linq.Expressions;
 
 namespace ShoppingList.Services
 {
@@ -185,6 +186,57 @@ namespace ShoppingList.Services
             catch (Exception)
             {
                 StatusMessage = "Failed to update data";
+            }
+        }
+
+        public void DeleteItem<T>(T item) where T : BaseEntity, new()
+        {
+            try
+            {
+                Init();
+
+                if (item is null)
+                {
+                    throw new ArgumentNullException(nameof(T));
+                }
+
+                result = conn.Delete(item);
+                StatusMessage = result == 0 ? "Delete failed" : "Delete successful";
+            }
+            catch (Exception)
+            {
+                StatusMessage = "Failed to delete data";
+            }
+        }
+
+        public void DeleteItems<T>(Func<T, bool> condition) where T : BaseEntity, new()
+        {
+            try
+            {
+                var itemsToDelete = GetItems(condition);
+                foreach (var item in itemsToDelete)
+                {
+                    DeleteItem(item);
+                }
+            }
+            catch (Exception)
+            {
+                StatusMessage = "Failed to delete all data.";
+            }
+        }
+
+        public void AddItems<T>(IEnumerable<T> items) where T : BaseEntity, new()
+        {
+            try
+            {
+                Init();
+
+                result = conn.InsertAll(items);
+                StatusMessage = result == 0 ? "Insert failed" : "Insert successful";
+            }
+            catch (Exception)
+            {
+                StatusMessage = "Failed to insert all data";
             }
         }
     }

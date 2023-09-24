@@ -150,7 +150,7 @@ namespace ShoppingList.ViewModels
 
             App.ShoppingDatabaseService.AddItem(recipe);
 
-            WeakReferenceMessenger.Default.Send(new UpdateItemsMessage(true));
+            WeakReferenceMessenger.Default.Send(new UpdateIngredientsMessage(true));
             OnPropertyChanged(nameof(IsNewRecipe));
         }
 
@@ -167,13 +167,25 @@ namespace ShoppingList.ViewModels
 
             App.ShoppingDatabaseService.UpdateItem(recipe);
 
-            WeakReferenceMessenger.Default.Send(new UpdateItemsMessage(true));
+            WeakReferenceMessenger.Default.Send(new UpdateIngredientsMessage(true));
         }
 
         [RelayCommand]
         public async Task Cancel()
         {
             await Shell.Current.GoToAsync("..");
+        }
+
+        [RelayCommand]
+        public async Task DeleteIngredient(Ingredient ingredient)
+        {
+            if (ingredient is null)
+            {
+                return;
+            }
+
+            App.ShoppingDatabaseService.DeleteItem(ingredient);
+            await GetIngredients();
         }
 
         private void ClearEntries()
