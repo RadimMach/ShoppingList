@@ -84,14 +84,14 @@ namespace ShoppingList.ViewModels
         }
 
         [RelayCommand]
-        async Task DeteleShopItem(ShopItem shopItem)
+        async Task DeleteShopItem()
         {
-            if (shopItem is null)
+            if (SelectedItem is null)
             {
                 return;
             }
 
-            App.ShoppingDatabaseService.DeleteItem(shopItem);
+            App.ShoppingDatabaseService.DeleteItem(SelectedItem);
             await GetShopItems();
         }
 
@@ -118,11 +118,11 @@ namespace ShoppingList.ViewModels
         }
 
         [RelayCommand]
-        async Task CheckOffShopItem(ShopItem shopItem)
+        async Task CheckOffShopItem()
         {
-            shopItem.CheckedOff = !shopItem.CheckedOff;
+            SelectedItem.CheckedOff = !SelectedItem.CheckedOff;
 
-            App.ShoppingDatabaseService.UpdateItem(shopItem);
+            App.ShoppingDatabaseService.UpdateItem(SelectedItem);
             await GetShopItems();
         }
 
