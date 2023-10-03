@@ -10,7 +10,7 @@ namespace ShoppingList.Effects
 #if ANDROID
 internal class RemoveBorderPlatformEffect : PlatformEffect
 {
-        Android.Graphics.Drawables.Drawable? originalBackground;
+        Android.Graphics.Drawables.Drawable originalBackground;
 
     protected override void OnAttached()
     {
@@ -37,7 +37,7 @@ internal class RemoveBorderPlatformEffect : PlatformEffect
 {
         UIKit.UITextBorderStyle? oldBorderStyle;
 
-        UIKit.UITextField? TextField => Control as UIKit.UITextField;
+        UIKit.UITextField TextField => Control as UIKit.UITextField;
 
     protected override void OnAttached()
     {

@@ -117,7 +117,6 @@ namespace ShoppingList.ViewModels
 
             App.ShoppingDatabaseService.AddItem<Ingredient>(item);
 
-            await GetIngredients();
             ClearEntries();
         }
 

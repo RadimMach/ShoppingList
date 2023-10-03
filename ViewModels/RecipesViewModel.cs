@@ -14,6 +14,8 @@ namespace ShoppingList.ViewModels
         [ObservableProperty]
         public string name;
 
+        public bool IsAnyRecipe => Recipes.Count() > 0;
+
         public ObservableCollection<Recipe> Recipes { get; set; }
 
         public RecipesViewModel()
@@ -79,6 +81,7 @@ namespace ShoppingList.ViewModels
             var items = App.ShoppingDatabaseService.GetAllItems<Recipe>().ToList();
             Recipes.Clear();
             items.ForEach(Recipes.Add);
+            OnPropertyChanged(nameof(IsAnyRecipe));
         }
 
         public void Receive(RefreshIngredientsMessage message)

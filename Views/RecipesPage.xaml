@@ -14,12 +14,13 @@
         RowDefinitions="Auto, *">
 
         <Button
+            Grid.Column="1"
             Margin="10"
             Command="{Binding GoToRandomRecipeCommand}"
+            IsVisible="{Binding IsAnyRecipe}"
             Text="Pick random recipe" />
 
         <Button
-            Grid.Column="1"
             Margin="10"
             Command="{Binding AddRecipeCommand}"
             Text="New recipe" />
