@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:effects="clr-namespace:ShoppingList.Effects"
     xmlns:viewmodel="clr-namespace:ShoppingList.ViewModels"
+    xmlns:components="clr-namespace:ShoppingList.CustomComponents"
     Title="{Binding Title}"
     x:DataType="viewmodel:RecipeDetailViewModel"
     Shell.TabBarIsVisible="False">
@@ -138,33 +139,16 @@
                             <SwipeView.RightItems>
                                 <SwipeItems Mode="Execute">
                                     <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipeDetailViewModel}}, Path=DeleteIngredientCommand}" CommandParameter="{Binding .}">
-                                        <StackLayout Background="Red" WidthRequest="2000">
-                                            <Label
-                                                Margin="10,0"
-                                                HorizontalOptions="End"
-                                                Text="Delete"
-                                                TextColor="White"
-                                                VerticalOptions="CenterAndExpand" />
-                                        </StackLayout>
+                                        <components:CustomSwipeItem SwipeBackground="Red" SwipeText="Delete" SwipeHorizontalOptions="End"/>
                                     </SwipeItemView>
                                 </SwipeItems>
                             </SwipeView.RightItems>
                             <Grid>
-                                <Frame>
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipeDetailViewModel}}, Path=TapCommand}" CommandParameter="{Binding .}" />
-                                    </Frame.GestureRecognizers>
-                                    <Grid>
-                                        <Label Text="{Binding Name}" />
-
-                                        <HorizontalStackLayout HorizontalOptions="End" Spacing="5">
-                                            <Label Text="{Binding Amount}" />
-                                            <Label Text="{Binding Unit}" />
-                                        </HorizontalStackLayout>
-                                    </Grid>
-
-                                </Frame>
-
+                                <components:ItemCard TapCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipeDetailViewModel}}, Path=TapCommand}"
+                                                     TapCommandParameter="{Binding .}"
+                                                     ItemName="{Binding Name}"
+                                                     ItemAmount="{Binding Amount}"
+                                                     ItemUnit="{Binding Unit}"/>
                                 <BoxView HeightRequest="1" VerticalOptions="EndAndExpand" />
                             </Grid>
                         </SwipeView>

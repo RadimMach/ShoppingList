@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="ShoppingList.CustomComponents.ItemCard"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="component">
+    <Frame BindingContext="{x:Reference component}"
+           BackgroundColor="{Binding ItemBackgroundColor}">
+        <Frame.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding TapCommand}" CommandParameter="{Binding TapCommandParameter}" />
+        </Frame.GestureRecognizers>
+        <Grid>
+            <Label Text="{Binding ItemName}" />
+
+            <HorizontalStackLayout HorizontalOptions="End" Spacing="5">
+                <Label Text="{Binding ItemAmount}" />
+                <Label Text="{Binding ItemUnit}" />
+            </HorizontalStackLayout>
+        </Grid>
+    </Frame>
+</ContentView>

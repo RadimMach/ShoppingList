@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:effects="clr-namespace:ShoppingList.Effects"
     xmlns:viewmodel="clr-namespace:ShoppingList.ViewModels"
+    xmlns:components="clr-namespace:ShoppingList.CustomComponents"
     Title="{Binding Title}"
     x:DataType="viewmodel:RecipesViewModel">
     <Grid
@@ -37,31 +38,18 @@
                         <SwipeView.RightItems>
                             <SwipeItems Mode="Execute">
                                 <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipesViewModel}}, Path=DeleteRecipeCommand}" CommandParameter="{Binding .}">
-                                    <StackLayout Background="Red" WidthRequest="2000">
-                                        <Label
-                                            Margin="10,0"
-                                            HorizontalOptions="End"
-                                            Text="Delete"
-                                            TextColor="White"
-                                            VerticalOptions="CenterAndExpand" />
-                                    </StackLayout>
+                                    <components:CustomSwipeItem SwipeBackground="Red" SwipeText="Delete" SwipeHorizontalOptions="End"/>
                                 </SwipeItemView>
                             </SwipeItems>
                         </SwipeView.RightItems>
                         <SwipeView.LeftItems>
                             <SwipeItems Mode="Execute">
                                 <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipesViewModel}}, Path=IngredientsToShoppingListCommand}" CommandParameter="{Binding .}">
-                                    <StackLayout Background="Green" WidthRequest="2000">
-                                        <Label
-                                            Margin="10,0"
-                                            HorizontalOptions="Start"
-                                            Text="Add to shopping list"
-                                            TextColor="White"
-                                            VerticalOptions="CenterAndExpand" />
-                                    </StackLayout>
+                                    <components:CustomSwipeItem SwipeBackground="Green" SwipeText="Start" SwipeHorizontalOptions="Start"/>
                                 </SwipeItemView>
                             </SwipeItems>
                         </SwipeView.LeftItems>
+                        
                         <Grid>
                             <Frame>
                                 <Frame.GestureRecognizers>
