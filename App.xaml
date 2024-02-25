@@ -1,11 +1,12 @@
-﻿<?xml version = "1.0" encoding = "UTF-8" ?>
-<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:ShoppingList"
-             xmlns:converters="clr-namespace:ShoppingList.Converters"
-             xmlns:view="clr-namespace:ShoppingList.Views"
-             xmlns:viewmodel="clr-namespace:ShoppingList.ViewModels"
-             x:Class="ShoppingList.App">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Application
+    x:Class="ShoppingList.App"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:ShoppingList.Converters"
+    xmlns:local="clr-namespace:ShoppingList"
+    xmlns:view="clr-namespace:ShoppingList.Views"
+    xmlns:viewmodel="clr-namespace:ShoppingList.ViewModels">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -13,8 +14,8 @@
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <!--Converters-->
-            <converters:NumberToTextConverter x:Key="NumberToTextConverter"/>
+            <!--  Converters  -->
+            <converters:NumberToTextConverter x:Key="NumberToTextConverter" />
             <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         </ResourceDictionary>

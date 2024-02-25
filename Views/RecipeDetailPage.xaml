@@ -3,9 +3,9 @@
     x:Class="ShoppingList.Views.RecipeDetailPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:ShoppingList.CustomComponents"
     xmlns:effects="clr-namespace:ShoppingList.Effects"
     xmlns:viewmodel="clr-namespace:ShoppingList.ViewModels"
-    xmlns:components="clr-namespace:ShoppingList.CustomComponents"
     Title="{Binding Title}"
     x:DataType="viewmodel:RecipeDetailViewModel"
     Shell.TabBarIsVisible="False">
@@ -32,7 +32,9 @@
                 Text="Add to shopping list" />
         </Grid>
 
-        <VerticalStackLayout Grid.Row="1" Margin="10">
+        <VerticalStackLayout
+            Grid.Row="1"
+            Margin="10">
             <Entry
                 Placeholder="Recipe name"
                 Text="{Binding RecipeName}"
@@ -53,7 +55,9 @@
                 </Editor.Effects>
             </Editor>
 
-            <BoxView HeightRequest="1" VerticalOptions="EndAndExpand" />
+            <BoxView
+                HeightRequest="1"
+                VerticalOptions="EndAndExpand" />
         </VerticalStackLayout>
 
         <Grid
@@ -138,18 +142,26 @@
                         <SwipeView>
                             <SwipeView.RightItems>
                                 <SwipeItems Mode="Execute">
-                                    <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipeDetailViewModel}}, Path=DeleteIngredientCommand}" CommandParameter="{Binding .}">
-                                        <components:CustomSwipeItem SwipeBackground="Red" SwipeText="Delete" SwipeHorizontalOptions="End"/>
+                                    <SwipeItemView
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipeDetailViewModel}}, Path=DeleteIngredientCommand}"
+                                        CommandParameter="{Binding .}">
+                                        <components:CustomSwipeItem
+                                            SwipeBackground="Red"
+                                            SwipeHorizontalOptions="End"
+                                            SwipeText="Delete" />
                                     </SwipeItemView>
                                 </SwipeItems>
                             </SwipeView.RightItems>
                             <Grid>
-                                <components:ItemCard TapCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipeDetailViewModel}}, Path=TapCommand}"
-                                                     TapCommandParameter="{Binding .}"
-                                                     ItemName="{Binding Name}"
-                                                     ItemAmount="{Binding Amount}"
-                                                     ItemUnit="{Binding Unit}"/>
-                                <BoxView HeightRequest="1" VerticalOptions="EndAndExpand" />
+                                <components:ItemCard
+                                    ItemAmount="{Binding Amount}"
+                                    ItemName="{Binding Name}"
+                                    ItemUnit="{Binding Unit}"
+                                    TapCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipeDetailViewModel}}, Path=TapCommand}"
+                                    TapCommandParameter="{Binding .}" />
+                                <BoxView
+                                    HeightRequest="1"
+                                    VerticalOptions="EndAndExpand" />
                             </Grid>
                         </SwipeView>
 

@@ -4,15 +4,20 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Name="component">
-    <Frame BindingContext="{x:Reference component}"
-           BackgroundColor="{Binding ItemBackgroundColor}">
+    <Frame
+        BackgroundColor="{Binding ItemBackgroundColor}"
+        BindingContext="{x:Reference component}">
         <Frame.GestureRecognizers>
-            <TapGestureRecognizer Command="{Binding TapCommand}" CommandParameter="{Binding TapCommandParameter}" />
+            <TapGestureRecognizer
+                Command="{Binding TapCommand}"
+                CommandParameter="{Binding TapCommandParameter}" />
         </Frame.GestureRecognizers>
         <Grid>
             <Label Text="{Binding ItemName}" />
 
-            <HorizontalStackLayout HorizontalOptions="End" Spacing="5">
+            <HorizontalStackLayout
+                HorizontalOptions="End"
+                Spacing="5">
                 <Label Text="{Binding ItemAmount}" />
                 <Label Text="{Binding ItemUnit}" />
             </HorizontalStackLayout>

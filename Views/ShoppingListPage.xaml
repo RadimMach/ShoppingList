@@ -3,10 +3,10 @@
     x:Class="ShoppingList.Views.ShoppingListPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:ShoppingList.CustomComponents"
     xmlns:effects="clr-namespace:ShoppingList.Effects"
     xmlns:templates="clr-namespace:ShoppingList.Templates"
     xmlns:viewmodel="clr-namespace:ShoppingList.ViewModels"
-    xmlns:components="clr-namespace:ShoppingList.CustomComponents"
     Title="{Binding Title}"
     x:DataType="viewmodel:ShoppingListViewModel">
 
@@ -16,26 +16,39 @@
                 <SwipeView>
                     <SwipeView.RightItems>
                         <SwipeItems Mode="Execute">
-                            <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=DeleteShopItemCommand}" CommandParameter="{Binding .}">
-                                <components:CustomSwipeItem SwipeBackground="Red" SwipeText="Delete" SwipeHorizontalOptions="End"/>
+                            <SwipeItemView
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=DeleteShopItemCommand}"
+                                CommandParameter="{Binding .}">
+                                <components:CustomSwipeItem
+                                    SwipeBackground="Red"
+                                    SwipeHorizontalOptions="End"
+                                    SwipeText="Delete" />
                             </SwipeItemView>
                         </SwipeItems>
                     </SwipeView.RightItems>
                     <SwipeView.LeftItems>
                         <SwipeItems Mode="Execute">
-                            <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=CheckOffShopItemCommand}" CommandParameter="{Binding .}">
-                                <components:CustomSwipeItem SwipeBackground="Green" SwipeText="Check off" SwipeHorizontalOptions="Start"/>
+                            <SwipeItemView
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=CheckOffShopItemCommand}"
+                                CommandParameter="{Binding .}">
+                                <components:CustomSwipeItem
+                                    SwipeBackground="Green"
+                                    SwipeHorizontalOptions="Start"
+                                    SwipeText="Check off" />
                             </SwipeItemView>
                         </SwipeItems>
                     </SwipeView.LeftItems>
                     <Grid>
-                        <components:ItemCard TapCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=TapCommand}"
-                                                 TapCommandParameter="{Binding .}"
-                                                 ItemName="{Binding Name}"
-                                                 ItemAmount="{Binding Amount}"
-                                                 ItemUnit="{Binding Unit}"/>
+                        <components:ItemCard
+                            ItemAmount="{Binding Amount}"
+                            ItemName="{Binding Name}"
+                            ItemUnit="{Binding Unit}"
+                            TapCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=TapCommand}"
+                            TapCommandParameter="{Binding .}" />
 
-                        <BoxView HeightRequest="1" VerticalOptions="EndAndExpand" />
+                        <BoxView
+                            HeightRequest="1"
+                            VerticalOptions="EndAndExpand" />
                     </Grid>
                 </SwipeView>
             </DataTemplate>
@@ -44,25 +57,36 @@
                 <SwipeView>
                     <SwipeView.RightItems>
                         <SwipeItems Mode="Execute">
-                            <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=DeleteShopItemCommand}" CommandParameter="{Binding .}">
-                                <components:CustomSwipeItem SwipeBackground="Red" SwipeText="Delete" SwipeHorizontalOptions="End"/>
+                            <SwipeItemView
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=DeleteShopItemCommand}"
+                                CommandParameter="{Binding .}">
+                                <components:CustomSwipeItem
+                                    SwipeBackground="Red"
+                                    SwipeHorizontalOptions="End"
+                                    SwipeText="Delete" />
                             </SwipeItemView>
                         </SwipeItems>
                     </SwipeView.RightItems>
                     <SwipeView.LeftItems>
                         <SwipeItems Mode="Execute">
-                            <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=CheckOffShopItemCommand}" CommandParameter="{Binding .}">
-                                <components:CustomSwipeItem SwipeBackground="Green" SwipeText="Check off" SwipeHorizontalOptions="Start"/>
+                            <SwipeItemView
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=CheckOffShopItemCommand}"
+                                CommandParameter="{Binding .}">
+                                <components:CustomSwipeItem
+                                    SwipeBackground="Green"
+                                    SwipeHorizontalOptions="Start"
+                                    SwipeText="Check off" />
                             </SwipeItemView>
                         </SwipeItems>
                     </SwipeView.LeftItems>
                     <Grid>
-                            <components:ItemCard TapCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=TapCommand}"
-                                                 TapCommandParameter="{Binding .}"
-                                                 ItemName="{Binding Name}"
-                                                 ItemAmount="{Binding Amount}"
-                                                 ItemUnit="{Binding Unit}"
-                                                 ItemBackgroundColor="LightGray"/>
+                        <components:ItemCard
+                            ItemAmount="{Binding Amount}"
+                            ItemBackgroundColor="LightGray"
+                            ItemName="{Binding Name}"
+                            ItemUnit="{Binding Unit}"
+                            TapCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ShoppingListViewModel}}, Path=TapCommand}"
+                            TapCommandParameter="{Binding .}" />
                     </Grid>
                 </SwipeView>
             </DataTemplate>
@@ -75,11 +99,17 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <ContentPage.ToolbarItems >
-        <ToolbarItem Text="Delete purchased items" Order="Secondary" Command="{Binding DeletePurchasedItemsCommand}"/>
-        <ToolbarItem Text="Delete all items" Order="Secondary" Command="{Binding DeleteAllItemsCommand}"/>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding DeletePurchasedItemsCommand}"
+            Order="Secondary"
+            Text="Delete purchased items" />
+        <ToolbarItem
+            Command="{Binding DeleteAllItemsCommand}"
+            Order="Secondary"
+            Text="Delete all items" />
     </ContentPage.ToolbarItems>
-    
+
     <Grid
         Padding="10"
         ColumnDefinitions="*,50,50"
